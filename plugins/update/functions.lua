@@ -12,7 +12,11 @@ function Update_CheckVersion()
 		
 		local l_Response = json.decode(p_Body)
 		
-		if type(l_Response) ~= "table" or l_Response["response"]["up_to_date"] then
+		if type(l_Response) ~= "table" 
+			or type(l_Response["response"]) ~= "table" 
+			or type(l_Response["response"]["up_to_date"]) ~= "boolean" 
+			or l_Response["response"]["up_to_date"] 
+		then
 			return
 		end
 		
@@ -61,14 +65,14 @@ function Update_RestartServer()
 		local l_PlayerIter = GetPlayer(i)
 		
 		if l_PlayerIter and l_PlayerIter:IsValid() and not l_PlayerIter:IsFakeClient() then
-			l_PlayerIter:SendMsg(MessageType.Chat, string.format("{lime}%s{default} The server is preparing for update", g_Config["update.tag"]))
-			l_PlayerIter:SendMsg(MessageType.Chat, string.format("{lime}%s{default} The server is preparing for update", g_Config["update.tag"]))
-			l_PlayerIter:SendMsg(MessageType.Chat, string.format("{lime}%s{default} The server is preparing for update", g_Config["update.tag"]))
-			l_PlayerIter:SendMsg(MessageType.Chat, string.format("{lime}%s{default} The server is preparing for update", g_Config["update.tag"]))
-			l_PlayerIter:SendMsg(MessageType.Chat, string.format("{lime}%s{default} The server is preparing for update", g_Config["update.tag"]))
+			l_PlayerIter:SendMsg(MessageType.Chat, string.format("{lime}%s{default} The server will restart due to a new game update", g_Config["update.tag"]))
+			l_PlayerIter:SendMsg(MessageType.Chat, string.format("{lime}%s{default} The server will restart due to a new game update", g_Config["update.tag"]))
+			l_PlayerIter:SendMsg(MessageType.Chat, string.format("{lime}%s{default} The server will restart due to a new game update", g_Config["update.tag"]))
+			l_PlayerIter:SendMsg(MessageType.Chat, string.format("{lime}%s{default} The server will restart due to a new game update", g_Config["update.tag"]))
+			l_PlayerIter:SendMsg(MessageType.Chat, string.format("{lime}%s{default} The server will restart due to a new game update", g_Config["update.tag"]))
 			
 			SetTimeout(3000, function()
-				l_PlayerIter:SendMsg(MessageType.Console, string.format("%s The server is preparing for update\n", g_Config["update.tag"]))
+				l_PlayerIter:SendMsg(MessageType.Console, string.format("%s The server will restart due to a new game update\n", g_Config["update.tag"]))
 				
 				l_PlayerIter:SendMsg(MessageType.Console, string.format("%s\n", g_Config["update.tag"]))
 				l_PlayerIter:SendMsg(MessageType.Console, string.format("%s\n", g_Config["update.tag"]))
@@ -88,6 +92,7 @@ function Update_RestartServer()
 	end
 	
 	SetTimeout(5000, function()
+		logger:Write(LogType_t.Common, "The server will restart due to a new game update")
 		server:Execute("quit")
 	end)
 end
