@@ -21,3 +21,10 @@ AddEventHandler("OnMapLoad", function(p_Event, p_Map)
 		g_Timer_Think = SetTimer(60000, g_Function_Think)
 	end
 end)
+
+AddEventHandler("OnMapUnload", function(p_Event, p_Map)
+	if g_Timer_Think then
+		StopTimer(g_Timer_Think)
+		g_Timer_Think = nil
+	end
+end)
